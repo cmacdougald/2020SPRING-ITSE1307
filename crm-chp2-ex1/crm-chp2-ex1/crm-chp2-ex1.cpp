@@ -7,11 +7,22 @@
 int main()
 {
 	// Input - Variables
+	int intOutput = 8;
+	char chrOutput = 'c';
+	bool boolOutput = true;
+	float fltOutput = 8.9f;
+	double dblOutput = 9.00;
 
 	// Processing
 	
 	// Output
-    std::cout << "Varaibles!\n"; 
+    std::cout << "Varaibles!";
+	std::cout << "\n";
+	std::cout << "\nInteger: " << intOutput;
+	std::cout << "\nCharacter: " << chrOutput;
+	std::cout << "\nBoolean: " << boolOutput;
+	std::cout << "\nFloat: " << fltOutput;
+	std::cout << "\nDouble: " << dblOutput;
 
 }
 
