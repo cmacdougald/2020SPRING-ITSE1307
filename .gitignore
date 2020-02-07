@@ -32,5 +32,5 @@
 *.app
 
 # Custom Folders
-Debug/
-Release/
+**/Debug/
+**/Release/
