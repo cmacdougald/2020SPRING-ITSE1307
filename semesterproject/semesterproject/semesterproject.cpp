@@ -9,23 +9,44 @@
 int main()
 {
 	// Variables
+	int intNumberOfCoins = 0;
 	int intHighScore = 1000;
 	int intStartingNumberOfLives = 3;
+	char chrMenuChoice = ' ';
 
 	// Splash Screen
-    std::cout << "\nSplash Screen";
+	std::cout << "\nSplash Screen";
 	std::cout << "\nGame Title";
 
-	// Main Menu
-	std::cout << "\nMain Menu";
-
-	// Win / Loss Screen
-	std::cout << "\nCongratulations, you " << "won!" << "lost?";
-	std::cout << "\nHigh Score: " << intHighScore;
+	do {
+		// Main Menu
+		std::cout << "\nMain Menu" << std::endl;
+		std::cout << "s) Start Game" << std::endl;
+		std::cout << "q) Quit Game" << std::endl;
+		std::cin >> chrMenuChoice;
+		switch (chrMenuChoice) {
+			case 's':
+				std::cout << "Start Game";
+				break;
+			case 'q':
+				char chrAreYouSure = ' ';
+				do {
+					std::cout << "Are you sure you want to quit?" << std::endl;
+					std::cin >> chrAreYouSure;
+					if (chrAreYouSure != 'y' && chrAreYouSure != 'Y') {
+						chrMenuChoice = ' ';
+						break;
+					}
+				} while (chrMenuChoice != 'q');
+				// Win / Loss Screen
+				std::cout << "\nCongratulations, you " << "won!" << "lost?";
+				std::cout << "\nHigh Score: " << intHighScore;
+				break;
+		}
+	} while (chrMenuChoice != 'q');
 
 	return 0;
 }
-
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
