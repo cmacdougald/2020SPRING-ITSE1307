@@ -3,7 +3,8 @@
 // Date: 20200206
 // Description: This the main for a text based adventure dungeon crawler
 
-#include "pch.h"
+#include "stdafx.h"
+//#include "pch.h"
 #include <iostream>
 #include <string>
 #include <time.h>
@@ -12,7 +13,7 @@
 
 int main()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	// Variables
 	int intNumberOfCoins = 0;
 	int intNumberOfItems = 0;
@@ -44,10 +45,19 @@ int main()
 
 		switch (chrMenuChoice) {
 			case 's':
+				// Setup of game state for new game place Start the game
+				intNumberOfCoins = 0;
+				intNumberOfItems = 0;
+				intNumberOfLives = intStartingNumberOfLives;
+				boolWinCondition = false;
 				std::cout << "You awake in a room that looks like a mine shaft, no one has been here for awhile." << std::endl;
-				while (boolWinCondition != true) {
+
+				// Main game room movement and search loop
+				while (boolWinCondition != true && intNumberOfLives > 0) {
 					std::cout << "Player Stats: Lives: " << intNumberOfLives << ", Items: " << intNumberOfItems << ", Coins: " << intNumberOfCoins << std::endl;
 					std::cout << "You enter a room in the mine shaft ..." << std::endl;
+
+					//Logic for what is in a room
 					intRoomCoins = 0;
 					boolRoomHasItem = false;
 					boolRoomHasTrap = false;
@@ -69,44 +79,98 @@ int main()
 							break;
 					}
 					std::cerr << "DEBUG: Coin? " << intRoomCoins << ", Trap? " << boolRoomHasTrap << ", Item? " << boolRoomHasItem << std::endl;
+
+					//Loop for correct using input
 					do {
-						std::cout << "Which direction do you want to go (w [go North], a [go West], s [go South], d [go East])?";
+						std::cout << "Which direction do you want to go (w [go North], a [go West], s [go South], d [go East])? " << std::endl;
+						std::cout << "What would you like to do (c [Search for Coins], i [Search for items])? ";
 						std::cin >> chrDirectionChoice;
 					} while (strAcceptedChoiceInRoom.find(chrDirectionChoice) == std::string::npos);
+
+
+					//Logic for handling user input choice
 					switch (chrDirectionChoice) {
-					case 'w':
+					case 'w': //Walk North
 						std::cout << "You walk north..." << std::endl;
+						if (boolRoomHasTrap) {
+							std::cout << "You triggered a trap and you got hurt." << std::endl;
+							intNumberOfLives--;
+							boolRoomHasTrap = false;
+							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
+						}
 						break;
-					case 'a':
+					case 'a': //Walk West
 						std::cout << "You walk west..." << std::endl;
+						if (boolRoomHasTrap) {
+							std::cout << "You triggered a trap and you got hurt." << std::endl;
+							intNumberOfLives--;
+							boolRoomHasTrap = false;
+							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
+						}
 						break;
-					case 's':
+					case 's': //Walk South
 						std::cout << "You walk south..." << std::endl;
+						if (boolRoomHasTrap) {
+							std::cout << "You triggered a trap and you got hurt." << std::endl;
+							intNumberOfLives--;
+							boolRoomHasTrap = false;
+							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
+						}
 						break;
-					case 'd':
+					case 'd': //Walk East
 						std::cout << "You walk east..." << std::endl;
+						if (boolRoomHasTrap) {
+							std::cout << "You triggered a trap and you got hurt." << std::endl;
+							intNumberOfLives--;
+							boolRoomHasTrap = false;
+							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
+						}
 						break;
-					case 'i':
-						std::cout << "You search for items in the room..." << std::endl;
+					case 'i': //Search for items
+						std::cout << "You search for items in the room...";
+						if (boolRoomHasItem) {
+							intNumberOfItems++;
+							std::cout << " you found a rare item.";
+							if (intNumberOfItems >= 2) {
+								boolWinCondition = true;
+							}
+						}
+						else {
+							std::cout << " you end up empty handed.";
+						}
 						break;
-					case 'c':
+					case 'c': //Search for coins
 						std::cout << "You search for coins in the room...";
 						if (intRoomCoins > 0) {
+							intNumberOfCoins += intRoomCoins;
 							std::cout << " you found " << intRoomCoins << " coin(s).";
 						}
 						else {
 							std::cout << " you end up empty handed.";
 						}
-						std::cout << std::endl;
-						intNumberOfCoins += intRoomCoins;
 						break;
-					case 't':
-						std::cout << "You search for traps in the room..." << std::endl;
+					case 't': //Search for traps
+						std::cout << "You search for traps in the room...";
+						if (boolRoomHasTrap) {
+							std::cout << " you found a trap.";
+							if ((rand() % 10 + 1) >= 6) {
+								std::cout << " You triggered the trap and you got hurt." << std::endl;
+								intNumberOfLives--;
+							}
+							else {
+								std::cout << " You cleared the trap." << std::endl;
+							}
+							boolRoomHasTrap = false;
+						}
+						else {
+							std::cout << " you end up empty handed.";
+						}
 						break;
-					case '0':
-						boolWinCondition = true;
+					case '0': //Developers exit menu trick.
+						intNumberOfLives = 0;
 						break;
 					} // Switch for player choices in rooom
+					std::cout << std::endl;
 				} /// Game Loop
 
 
@@ -125,21 +189,15 @@ int main()
 				//*/
 
 				// Win / Loss Screen
+
+				//TODO: Calculate High Score
 				std::cout << "\nCongratulations, you " << "won!" << "lost?";
 				std::cout << "\nHigh Score: " << intHighScore;
 				break;
 		}
 	} while (chrMenuChoice != 'q');
 
+	std::cout << std::endl;
+
 	return 0;
 }
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
