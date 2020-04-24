@@ -146,6 +146,15 @@ std::string Table::toString()
 }
 
 std::string Table::toJSON()
-{
-	return "";
+{   
+	std::string strReturnJSON = "{";
+	strReturnJSON += "\"length\": " + std::to_string(this->getLength()) + ", ";
+	strReturnJSON += "\"width\": " + std::to_string(this->getWidth()) + ", ";
+	strReturnJSON += "\"height\": " + std::to_string(this->getHeight()) + ", ";
+	strReturnJSON += "\"legs\": " + std::to_string(this->getNumberOfLegs()) + ", ";
+	strReturnJSON += "\"color\": " + std::to_string(this->getColor()) + ", ";
+	strReturnJSON += "\"area\": " + std::to_string(this->getSurfaceArea()) + ", ";
+	strReturnJSON += "\"volume\": " + std::to_string(this->getVolume()) + "";
+	strReturnJSON += "}";
+	return strReturnJSON;
 }

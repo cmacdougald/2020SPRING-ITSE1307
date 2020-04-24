@@ -9,6 +9,37 @@
 #include <string>
 #include <time.h>
 #include <random>
+#include "Room.h"
+
+
+
+int determineHighScore(int & intCurrentHighScore, int intPotentialHighScore) {
+	if (intPotentialHighScore >= intCurrentHighScore) {
+		intCurrentHighScore = intPotentialHighScore;
+	}
+	return intCurrentHighScore;
+}
+
+
+int calculateHighScore(int intNumberOfItems, int NumberOfCoins) {
+	//TODO Come up with formula for making high score
+	return 1000;
+}
+
+void displaySplashScreen() {
+	// Splash Screen
+	std::cout << "\nSplash Screen";
+	std::cout << "\nGame Title";
+}
+
+void displayMainMenu() {
+	// Main Menu
+	std::cout << "\nMain Menu" << std::endl;
+	std::cout << "s) Start Game" << std::endl;
+
+	std::cout << "q) Quit Game" << std::endl;
+	std::cout << "What would you like to do: ";
+}
 
 
 int main()
@@ -19,27 +50,16 @@ int main()
 	int intNumberOfItems = 0;
 	int intStartingNumberOfLives = 3;
 	int intNumberOfLives = intStartingNumberOfLives;
-	int intHighScore = 1000;
+	int intHighScore = 5000;
 	char chrMenuChoice = ' ';
 	char chrDirectionChoice = ' ';
 	std::string strAcceptedChoiceInRoom = "wasd0ict";
 	bool boolWinCondition = false;
-	int intRoomCoins = 0;
-	bool boolRoomHasItem = 0;
-	bool boolRoomHasTrap = 0;
 
-
-	// Splash Screen
-	std::cout << "\nSplash Screen";
-	std::cout << "\nGame Title";
-
+	displaySplashScreen();
+	
 	do {
-		// Main Menu
-		std::cout << "\nMain Menu" << std::endl;
-		std::cout << "s) Start Game" << std::endl;
-		
-		std::cout << "q) Quit Game" << std::endl;
-		std::cout << "What would you like to do: ";
+		displayMainMenu();
 
 		std::cin >> chrMenuChoice;
 
@@ -57,30 +77,11 @@ int main()
 					std::cout << "Player Stats: Lives: " << intNumberOfLives << ", Items: " << intNumberOfItems << ", Coins: " << intNumberOfCoins << std::endl;
 					std::cout << "You enter a room in the mine shaft ..." << std::endl;
 
-					//Logic for what is in a room
-					intRoomCoins = 0;
-					boolRoomHasItem = false;
-					boolRoomHasTrap = false;
-					switch (rand() % 10 + 1)
-					{
-						case 1: case 3: case 5:
-							intRoomCoins = 1;
-							break;
-						case 2: case 4:
-							intRoomCoins = 2;
-							break;
-						case 6: case 7:
-							boolRoomHasTrap = true;
-							break;
-						case 8:
-							boolRoomHasItem = true;
-							break;
-						default:
-							break;
-					}
-					std::cerr << "DEBUG: Coin? " << intRoomCoins << ", Trap? " << boolRoomHasTrap << ", Item? " << boolRoomHasItem << std::endl;
+					
+					Room objRoom = Room();
+					std::cerr << objRoom.toString() << std::endl;
 
-					//Loop for correct using input
+					//Loop for correct user input
 					do {
 						std::cout << "Which direction do you want to go (w [go North], a [go West], s [go South], d [go East])? " << std::endl;
 						std::cout << "What would you like to do (c [Search for Coins], i [Search for items])? ";
@@ -92,43 +93,26 @@ int main()
 					switch (chrDirectionChoice) {
 					case 'w': //Walk North
 						std::cout << "You walk north..." << std::endl;
-						if (boolRoomHasTrap) {
-							std::cout << "You triggered a trap and you got hurt." << std::endl;
-							intNumberOfLives--;
-							boolRoomHasTrap = false;
-							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
-						}
+						objRoom.checkForTrap(intNumberOfLives);
 						break;
 					case 'a': //Walk West
 						std::cout << "You walk west..." << std::endl;
-						if (boolRoomHasTrap) {
-							std::cout << "You triggered a trap and you got hurt." << std::endl;
-							intNumberOfLives--;
-							boolRoomHasTrap = false;
-							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
-						}
+						objRoom.checkForTrap(intNumberOfLives);
+
 						break;
 					case 's': //Walk South
 						std::cout << "You walk south..." << std::endl;
-						if (boolRoomHasTrap) {
-							std::cout << "You triggered a trap and you got hurt." << std::endl;
-							intNumberOfLives--;
-							boolRoomHasTrap = false;
-							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
-						}
+						objRoom.checkForTrap(intNumberOfLives);
+
 						break;
 					case 'd': //Walk East
 						std::cout << "You walk east..." << std::endl;
-						if (boolRoomHasTrap) {
-							std::cout << "You triggered a trap and you got hurt." << std::endl;
-							intNumberOfLives--;
-							boolRoomHasTrap = false;
-							std::cout << "You should look for traps next time (t [Search for Traps])!" << std::endl;
-						}
+						objRoom.checkForTrap(intNumberOfLives);
+
 						break;
 					case 'i': //Search for items
 						std::cout << "You search for items in the room...";
-						if (boolRoomHasItem) {
+						if (objRoom.checkForItem()) {
 							intNumberOfItems++;
 							std::cout << " you found a rare item.";
 							if (intNumberOfItems >= 2) {
@@ -141,9 +125,9 @@ int main()
 						break;
 					case 'c': //Search for coins
 						std::cout << "You search for coins in the room...";
-						if (intRoomCoins > 0) {
-							intNumberOfCoins += intRoomCoins;
-							std::cout << " you found " << intRoomCoins << " coin(s).";
+						if (objRoom.getCoins() > 0) {
+							intNumberOfCoins += objRoom.getCoins();
+							std::cout << " you found " << objRoom.getCoins() << " coin(s).";
 						}
 						else {
 							std::cout << " you end up empty handed.";
@@ -151,16 +135,8 @@ int main()
 						break;
 					case 't': //Search for traps
 						std::cout << "You search for traps in the room...";
-						if (boolRoomHasTrap) {
-							std::cout << " you found a trap.";
-							if ((rand() % 10 + 1) >= 6) {
-								std::cout << " You triggered the trap and you got hurt." << std::endl;
-								intNumberOfLives--;
-							}
-							else {
-								std::cout << " You cleared the trap." << std::endl;
-							}
-							boolRoomHasTrap = false;
+						if (objRoom.checkForTrap(intNumberOfLives, true)) {
+							// Logic moved into class
 						}
 						else {
 							std::cout << " you end up empty handed.";
@@ -176,23 +152,10 @@ int main()
 
 				break;
 			case 'q':
-				/*
-				char chrAreYouSure = ' ';
-				do {
-					std::cout << "Are you sure you want to quit?";
-					std::cin >> chrAreYouSure;
-					if (chrAreYouSure != 'y' && chrAreYouSure != 'Y') {
-						chrMenuChoice = ' ';
-						break;
-					}
-				} while (chrMenuChoice != 'q');
-				//*/
-
-				// Win / Loss Screen
-
 				//TODO: Calculate High Score
-				std::cout << "\nCongratulations, you " << "won!" << "lost?";
-				std::cout << "\nHigh Score: " << intHighScore;
+				std::cout << "\nCongratulations, you " << (boolWinCondition ? "won!" : "lost?" );
+				std::cout << "\nYour Score: " << calculateHighScore(intNumberOfItems, intNumberOfCoins);
+				std::cout << "\nHigh Score: " << determineHighScore(intHighScore, calculateHighScore(intNumberOfItems, intNumberOfCoins));
 				break;
 		}
 	} while (chrMenuChoice != 'q');

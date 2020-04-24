@@ -32,6 +32,7 @@ int main()
 	objTableTwo.setLength(12);
 
 	cout << objTableTwo.toString() << endl;
+	cout << objTableTwo.toJSON() << endl;
 
 
 

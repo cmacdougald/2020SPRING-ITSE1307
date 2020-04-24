@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C3FDE674-BC77-4079-93B1-751539500609}</ProjectGuid>
+    <ProjectGuid>{2166DEA4-770D-449E-959C-80B056EE5ADF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>semesterproject</RootNamespace>
+    <RootNamespace>chp12example2</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,13 +145,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Room.h" />
+    <ClInclude Include="Card.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="semesterproject.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="chp12-example2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
