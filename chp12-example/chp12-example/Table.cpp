@@ -10,6 +10,14 @@ Table::Table()
 	setColor(0);
 }
 
+Table::Table(int intpLength, int intpWidth, int intpHeight)
+{
+	setNumberOfLegs(2);
+	setWidth(intpWidth);
+	setLength(intpLength);
+	setHeight(intpHeight);
+	setColor(0);
+}
 
 Table::~Table()
 {
@@ -103,7 +111,7 @@ int Table::setLength(int intpLength)
 		std::cerr << "Table::setWidth - Invalid too small." << std::endl;
 	}
 	this->intLength = intpLength;
-	return getWidth();
+	return getLength();
 }
 
 

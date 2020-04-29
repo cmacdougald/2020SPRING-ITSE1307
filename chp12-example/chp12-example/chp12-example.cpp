@@ -12,6 +12,7 @@ int main()
 	string strExample = "Hello";
 	Table objTableOne;
 	Table objTableTwo;
+	Table objTableThree = Table(90, 60, 34);
 	
 	cout << "Enter your string: ";
 	cin >> strExample;
@@ -33,6 +34,8 @@ int main()
 
 	cout << objTableTwo.toString() << endl;
 	cout << objTableTwo.toJSON() << endl;
+
+	cout << objTableThree.toString() << endl;
 
 
 

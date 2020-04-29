@@ -6,6 +6,7 @@ class Table
 {
 public:
 	Table();
+	Table(int intpLength, int intpWidth, int intpHeight);
 	~Table();
 	int getHeight();
 	int setHeight(int intpHeight);
