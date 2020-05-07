@@ -62,7 +62,7 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 	// Variables
-	vector<room> vtrRoom(7);
+	std::vector<Room> vtrRoom(7);
 	int intNumberOfCoins = 0;
 	int intNumberOfItems = 0;
 	int intStartingNumberOfLives = 3;
@@ -74,6 +74,7 @@ int main()
 	char chrDirectionChoice = ' ';
 	std::string strAcceptedChoiceInRoom = "wasd0ict";
 	bool boolWinCondition = false;
+	Room objTempRoom;
 
 	displaySplashScreen();
 	
@@ -128,7 +129,7 @@ int main()
 				[4 E0] [ 0 N1, E2, S3, W4] [2 W0, S6]
 					   [ 3 N0]			   [6 N2]
 */
-				Room objTempRoom = Room();
+				objTempRoom = Room();
 				objTempRoom.setNorth(1);
 				objTempRoom.setEast(2);
 				objTempRoom.setSouth(3);
@@ -156,7 +157,7 @@ int main()
 				objTempRoom.setNorth(2);
 				vtrRoom.push_back(objTempRoom);
 
-				std::cout << "You awake in a room that looks like a mine shaft, no one has been here for awhile." << std::endl;~
+				std::cout << "You awake in a room that looks like a mine shaft, no one has been here for awhile." << std::endl;
 				// Main game room movement and search loop
 				while (boolWinCondition != true && intNumberOfLives > 0) {
 					std::cout << "Player Stats: Lives: " << intNumberOfLives << ", Items: " << intNumberOfItems << ", Coins: " << intNumberOfCoins << std::endl;
